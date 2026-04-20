@@ -15,7 +15,7 @@ type Props = {
 };
 
 export default function Dashboard(props: Props) {
-  const { run, loading, progress, result, error, setResult } =
+  const { run, loading, progress, result, setResult } =
     useGeospatialAnalysis();
 
   const [hasGeometry, setHasGeometry] = useState(false);

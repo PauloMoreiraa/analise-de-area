@@ -25,11 +25,9 @@ export function addLegendWidget(view: MapView, expands: any[]) {
   symbol.style.height = "18px";
   symbol.style.marginLeft = "30px";
   symbol.style.marginBottom = "10px";
-  symbol.style.backgroundColor = "rgba(255,255,0,0.18)";
-  symbol.style.border = "2px solid yellow";
-  symbol.style.backgroundImage =
-    "repeating-linear-gradient(135deg, transparent, transparent 4px, rgba(255,255,0,1) 4px, rgba(255,255,0,1) 8px)";
-
+  symbol.style.backgroundColor = "rgba(0, 102, 255, 0.18)";
+  symbol.style.border = "2px solid rgb(0, 102, 255)";
+  
   customItem.appendChild(label);
   customItem.appendChild(symbol);
 
