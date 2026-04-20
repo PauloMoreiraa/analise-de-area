@@ -7,8 +7,25 @@ import type { AnalysisResult } from "../Services/AnalysisResult";
 
 export function useGeospatialAnalysis() {
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const animateProgress = () => {
+    setProgress(0);
+
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 90) {
+          clearInterval(interval);
+          return prev;
+        }
+        return prev + 10;
+      });
+    }, 120);
+
+    return interval;
+  };
 
   const run = async (params: {
     view: MapView;
@@ -26,6 +43,8 @@ export function useGeospatialAnalysis() {
     setLoading(true);
     setError(null);
 
+    const interval = animateProgress();
+
     try {
       const data = await runGeospatialAnalysis({
         geometry: graphic.geometry,
@@ -33,6 +52,9 @@ export function useGeospatialAnalysis() {
         municipios: params.municipios,
         biomas: params.biomas
       });
+
+      clearInterval(interval);
+      setProgress(100);
 
       setResult(data);
 
@@ -48,6 +70,7 @@ export function useGeospatialAnalysis() {
   return {
     run,
     loading,
+    progress,
     result,
     error,
     setResult

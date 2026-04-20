@@ -41,10 +41,20 @@ export async function runGeospatialAnalysis(params: {
     queryLayer(biomas, geometry)
   ]);
 
+  const sortByField = (arr: any[], field: string) => {
+    return [...arr].sort((a, b) =>
+      (a[field] || "").localeCompare(
+        b[field] || "",
+        "pt-BR",
+        { sensitivity: "base" }
+      )
+    );
+  };
+
   return {
     areaKm2,
-    estados: ufs,
-    municipios: muns,
-    biomas: bios
+    estados: sortByField(ufs, "nm_uf"),
+    municipios: sortByField(muns, "nm_mun"),
+    biomas: sortByField(bios, "NOME")
   };
 }

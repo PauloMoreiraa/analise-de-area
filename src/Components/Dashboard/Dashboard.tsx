@@ -15,31 +15,30 @@ type Props = {
 };
 
 export default function Dashboard(props: Props) {
-  const {
-    run,
-    loading,
-    result,
-    error,
-    setResult
-  } = useGeospatialAnalysis();
+  const { run, loading, progress, result, error, setResult } =
+    useGeospatialAnalysis();
 
   const [hasGeometry, setHasGeometry] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const sync = () => {
-      setHasGeometry(props.sketchLayer.graphics.length > 0);
+      const hasGeo = props.sketchLayer.graphics.length > 0;
+      setHasGeometry(hasGeo);
+
+      if (!hasGeo) setExpanded(false);
       setResult(null);
     };
 
     sync();
-
     const handle = props.sketchLayer.graphics.on("change", sync);
 
     return () => handle.remove();
   }, [props.sketchLayer]);
 
-  const handleRun = () => {
-    run(props);
+  const handleRun = async () => {
+    await run(props);
+    setExpanded(true);
   };
 
   const handlePdf = async () => {
@@ -52,11 +51,39 @@ export default function Dashboard(props: Props) {
     });
   };
 
+  const Skeleton = () => (
+    <div className="skeleton">
+      <div className="bar" />
+      <div className="bar short" />
+      <div className="bar" />
+    </div>
+  );
+
+  const Chip = ({ label }: { label: string }) => (
+    <span className="chip">{label}</span>
+  );
+
   return (
-    <div className="dashboard">
+    <div className={`dashboard ${expanded ? "expanded" : "collapsed"}`}>
+      
       <div className="dashboard-header">
         <h3>Análise Geográfica</h3>
-        <p>Interseção espacial da geometria desenhada</p>
+        <p>Interseção espacial</p>
+
+        {loading && (
+          <div className="progress">
+            <div
+              className="progress-bar"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        )}
+
+        {!hasGeometry && (
+          <div className="hint">
+            Crie um polígono para iniciar a análise
+          </div>
+        )}
       </div>
 
       <div className="dashboard-actions">
@@ -67,19 +94,12 @@ export default function Dashboard(props: Props) {
         >
           {loading ? "Analisando..." : "Executar análise"}
         </button>
-
-        <button
-          className="btn btn-secondary"
-          disabled={!result}
-          onClick={handlePdf}
-        >
-          Gerar PDF
-        </button>
       </div>
 
-      {error && <div className="card error">{error}</div>}
-
       <div className="results">
+
+        {loading && <Skeleton />}
+
         {result?.areaKm2 !== undefined && (
           <div className="card">
             <h4>Área total</h4>
@@ -91,33 +111,41 @@ export default function Dashboard(props: Props) {
           <>
             <div className="card">
               <h4>Estados ({result.estados.length})</h4>
-              <ul>
+              <div className="chips">
                 {result.estados.map((e, i) => (
-                  <li key={i}>{e.nm_uf}</li>
+                  <Chip key={i} label={e.nm_uf} />
                 ))}
-              </ul>
+              </div>
             </div>
 
             <div className="card">
               <h4>Municípios ({result.municipios.length})</h4>
-              <ul>
+              <div className="chips">
                 {result.municipios.map((m, i) => (
-                  <li key={i}>{m.nm_mun}</li>
+                  <Chip key={i} label={m.nm_mun} />
                 ))}
-              </ul>
+              </div>
             </div>
 
             <div className="card">
               <h4>Biomas ({result.biomas.length})</h4>
-              <ul>
+              <div className="chips">
                 {result.biomas.map((b, i) => (
-                  <li key={i}>{b.NOME}</li>
+                  <Chip key={i} label={b.NOME} />
                 ))}
-              </ul>
+              </div>
             </div>
           </>
         )}
       </div>
+
+      {result && expanded && (
+        <div className="dashboard-footer">
+          <button className="btn btn-secondary" onClick={handlePdf}>
+            Gerar PDF
+          </button>
+        </div>
+      )}
     </div>
   );
 }
