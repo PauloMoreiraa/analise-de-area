@@ -19,7 +19,7 @@ Tecnologias principais:
 ---
 
 ## 📁 Estrutura do projeto
-
+```
 src/
 ├── App.tsx                
 ├── main.tsx              
@@ -41,7 +41,7 @@ src/
 │
 └── Utils/
     └── GeradorPdf.ts   
-
+```
 ---
 
 ## 🚀 Como rodar o projeto
