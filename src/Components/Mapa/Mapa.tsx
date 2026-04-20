@@ -31,12 +31,7 @@ export default function Mapa() {
 
     const map = new Map({
       basemap: "satellite",
-      layers: [
-        biomasLayer,
-        municipioLayer,
-        estadosLayer,
-        sketchLayer
-      ]
+      layers: [biomasLayer, municipioLayer, estadosLayer, sketchLayer]
     });
 
     const view = new MapView({
@@ -48,6 +43,22 @@ export default function Mapa() {
       ui: { components: [] }
     });
 
+    const coordDiv = document.createElement("div");
+    coordDiv.style.position = "absolute";
+    coordDiv.style.right = "10px";
+    coordDiv.style.bottom = "20px";
+    coordDiv.style.padding = "6px 10px";
+    coordDiv.style.background = "rgba(0,0,0,0.65)";
+    coordDiv.style.color = "#fff";
+    coordDiv.style.fontSize = "12px";
+    coordDiv.style.borderRadius = "6px";
+    coordDiv.style.pointerEvents = "none";
+    coordDiv.style.zIndex = "999";
+
+    mapDiv.current.appendChild(coordDiv);
+
+    let pointerHandle: any;
+
     view.when(() => {
       initWidgets(view, sketchLayer);
 
@@ -58,9 +69,28 @@ export default function Mapa() {
         municipioLayer,
         biomasLayer
       });
+
+      pointerHandle = view.on("pointer-move", (event) => {
+        const point = view.toMap({
+          x: event.x,
+          y: event.y
+        });
+
+        if (!point || point.latitude == null || point.longitude == null) {
+          coordDiv.innerHTML = "Lat: -- | Lon: --";
+          return;
+        }
+
+        coordDiv.innerHTML = `
+          Lon: ${point.longitude.toFixed(5)} <br/>
+          Lat: ${point.latitude.toFixed(5)}
+        `;
+      });
     });
 
     return () => {
+      pointerHandle?.remove();
+      coordDiv.remove();
       view.destroy();
     };
   }, []);
