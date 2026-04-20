@@ -1,73 +1,84 @@
-# React + TypeScript + Vite
+# Analise Geográfica
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projeto de aplicação web para análise geográfica.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 📌 Sobre o projeto
 
-## React Compiler
+Este sistema permite a visualização e análise de dados geoespaciais, com ferramentas de desenho, camadas, widgets de mapa e exportação de resultados (ex: PDF).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Tecnologias principais:
+- React 19
+- Vite
+- TypeScript
+- ArcGIS JS API (@arcgis/core)
+- React Router DOM
+- jsPDF
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📁 Estrutura do projeto
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+src/
+├── App.tsx                
+├── main.tsx              
+├── index.css
+│
+├── Components/
+│   ├── Dashboard/        
+│   ├── Mapa/            
+│   └── Widgets/          
+│
+├── Hooks/
+│   └── useGeospatialAnalysis.ts  
+│
+├── Layers/
+│   └── LayerConfig.ts    
+│
+├── Services/
+│   └── AnalysisResult.ts 
+│
+└── Utils/
+    └── GeradorPdf.ts   
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🚀 Como rodar o projeto
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. Instalar dependências:
+npm install
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2. Rodar em desenvolvimento:
+npm run dev
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3. Build:
+npm run build
+
+4. Preview:
+npm run preview
+
+---
+
+## ⚙️ Scripts
+
+- dev → inicia servidor Vite
+- build → build produção
+- lint → ESLint
+- preview → preview build
+
+---
+
+## 🗺️ Funcionalidades
+
+- Mapa com ArcGIS
+- Widgets de interação
+- Desenho de geometrias
+- Análises geoespaciais
+- Exportação PDF
+
+---
+
+## 📌 Observações
+
+- Arquitetura modular
