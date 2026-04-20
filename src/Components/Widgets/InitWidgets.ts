@@ -8,7 +8,6 @@ import { addLayersWidget } from "./Layers";
 import { addBasemapWidget } from "./BaseMap";
 import { addSketchWidget } from "./SketchWidget";
 import { addLegendWidget } from "./LegendWidget";
-import { addPrintWidget } from "./PrintWidget";
 
 export function initWidgets(view: MapView, sketchLayer: GraphicsLayer) {
   const expands: any[] = [];
@@ -20,8 +19,5 @@ export function initWidgets(view: MapView, sketchLayer: GraphicsLayer) {
   addSearchWidget(view, expands);
   addLayersWidget(view, expands);
   addLegendWidget(view, expands);
-
   addSketchWidget(view, expands, sketchLayer);
-
-  addPrintWidget(view, expands);
 }

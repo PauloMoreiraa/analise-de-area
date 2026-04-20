@@ -11,7 +11,7 @@ export function addSketchWidget(
 ) {
   const polygonSymbol = new SimpleFillSymbol({
     color: [255, 255, 0, 0.18], // amarelo com transparência
-    style: "backward-diagonal", // listrado
+    style: "solid", // listrado
     outline: {
       color: [255, 255, 0, 1], // borda amarela
       width: 2
