@@ -10,10 +10,10 @@ export function addSketchWidget(
   sketchLayer: GraphicsLayer
 ) {
   const polygonSymbol = new SimpleFillSymbol({
-    color: [0, 102, 255, 0.18], // amarelo com transparência
-    style: "solid", // listrado
+    color: [0, 102, 255, 0.18],
+    style: "solid",
     outline: {
-      color: [0, 102, 255, 1], // borda amarela
+      color: [0, 102, 255, 1],
       width: 2
     }
   });

@@ -21,17 +21,14 @@ export default function Mapa() {
   useEffect(() => {
     if (!mapDiv.current) return;
 
-    // 🌍 layers base
     const estadosLayer = createEstadosLayer();
     const municipioLayer = createMunicipioLayer();
     const biomasLayer = createBiomasLayer();
 
-    // ✏️ sketch layer global (IMPORTANTE pro dashboard)
     const sketchLayer = new GraphicsLayer({
       title: "Desenhos"
     });
 
-    // 🗺️ mapa
     const map = new Map({
       basemap: "satellite",
       layers: [
@@ -42,7 +39,6 @@ export default function Mapa() {
       ]
     });
 
-    // 👁️ view
     const view = new MapView({
       container: mapDiv.current,
       map,
@@ -52,7 +48,6 @@ export default function Mapa() {
       ui: { components: [] }
     });
 
-    // widgets + sketch
     view.when(() => {
       initWidgets(view, sketchLayer);
 
@@ -72,10 +67,8 @@ export default function Mapa() {
 
   return (
     <div className="map-container">
-      {/* MAPA */}
       <div ref={mapDiv} className="map-container" />
 
-      {/* DASHBOARD */}
       {ctx && (
         <Dashboard
           view={ctx.view}
