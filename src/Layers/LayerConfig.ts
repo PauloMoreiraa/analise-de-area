@@ -114,36 +114,147 @@ export function createMunicipioLayer() {
 export function createBiomasLayer() {
 	return new FeatureLayer({
 		url: import.meta.env.VITE_CAMADA_BIOMAS,
+
 		title: "Biomas do Brasil",
+
 		minScale: 0,
 		maxScale: 0,
+
 		visible: false,
 		opacity: 0.8,
+
 		outFields: ["*"],
+
+		renderer: {
+			type: "unique-value",
+
+			field: "bioma",
+
+			uniqueValueInfos: [
+				{
+					value: "Amazônia",
+
+					symbol: {
+						type: "simple-fill",
+
+						color: [168, 255, 0, 0.5],
+
+						outline: {
+							color: [168, 255, 0],
+							width: 1.2
+						}
+					}
+				},
+				{
+					value: "Caatinga",
+
+					symbol: {
+						type: "simple-fill",
+
+						color: [255, 255, 168, 0.5],
+
+						outline: {
+							color: [255, 255, 168],
+							width: 1.2
+						}
+					}
+				},
+				{
+					value: "Cerrado",
+
+					symbol: {
+						type: "simple-fill",
+
+						color: [255, 192, 168, 0.5],
+
+						outline: {
+							color: [255, 192, 168],
+							width: 1.2
+						}
+					}
+				},
+				{
+					value: "Mata Atlântica",
+
+					symbol: {
+						type: "simple-fill",
+
+						color: [214, 255, 168, 0.5],
+
+						outline: {
+							color: [214, 255, 168],
+							width: 1.2
+						}
+					}
+				},
+				{
+					value: "Pampa",
+
+					symbol: {
+						type: "simple-fill",
+
+						color: [255, 240, 213, 0.5],
+
+						outline: {
+							color: [255, 240, 213],
+							width: 1.2
+						}
+					}
+				},
+				{
+					value: "Pantanal",
+
+					symbol: {
+						type: "simple-fill",
+
+						color: [255, 229, 255, 0.5],
+
+						outline: {
+							color: [255, 229, 255],
+							width: 1.2
+						}
+					}
+				}
+			]
+		},
 
 		popupEnabled: true,
 
 		popupTemplate: {
-			title: "Bioma: {NOME}",
+			title: "Bioma: {bioma}",
+
 			content: [
 				{
 					type: "fields",
+
 					fieldInfos: [
 						{
-							fieldName: "NOME",
+							fieldName: "bioma",
 							label: "Nome do Bioma"
 						},
 						{
-							fieldName: "OBJECTID",
+							fieldName: "cd_bioma",
+							label: "Código do Bioma"
+						},
+						{
+							fieldName: "objectid",
 							label: "ID"
 						},
 						{
-							fieldName: "SHAPE_Area",
-							label: "Área"
+							fieldName: "Shape__Area",
+							label: "Área",
+							format: {
+								places: 2,
+								digitSeparator: true
+							}
 						},
 						{
-							fieldName: "SHAPE_Length",
-							label: "Perímetro"
+							fieldName: "Shape__Length",
+							label: "Perímetro",
+							format: {
+								places: 2,
+								digitSeparator: true
+							}
 						}
 					]
 				}

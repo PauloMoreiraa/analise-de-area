@@ -55,6 +55,6 @@ export async function runGeospatialAnalysis(params: {
     areaKm2,
     estados: sortByField(ufs, "nm_uf"),
     municipios: sortByField(muns, "nm_mun"),
-    biomas: sortByField(bios, "NOME")
+    biomas: sortByField(bios, "bioma")
   };
 }

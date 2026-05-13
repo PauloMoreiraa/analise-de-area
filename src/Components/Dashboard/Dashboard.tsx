@@ -131,7 +131,7 @@ export default function Dashboard(props: Props) {
               <h4>Biomas ({result.biomas.length})</h4>
               <div className="chips">
                 {result.biomas.map((b, i) => (
-                  <Chip key={i} label={b.NOME} />
+                  <Chip key={i} label={b.bioma} />
                 ))}
               </div>
             </div>
